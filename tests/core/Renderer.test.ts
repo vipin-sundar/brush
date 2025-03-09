@@ -11,7 +11,8 @@ describe('Renderer', () => {
             fillRect: jest.fn(),
             beginPath: jest.fn(),
             rect: jest.fn(),
-            fill: jest.fn()
+            fill: jest.fn(),
+            ellipse: jest.fn()
         } as unknown as CanvasRenderingContext2D;
 
         canvas = {
@@ -60,6 +61,15 @@ describe('Renderer', () => {
             const color = '#F0F0F0'
             renderer.fill(color);
             expect(ctx.fillStyle).toBe(color);
+        })
+    });
+    describe('ellipse', () => {
+        it('should draw ellipse with correct parameters', () => {
+            const x = 10, y = 20, width = 30, height = 40;
+            renderer.ellipse(x, y, width, height);
+            expect(ctx.beginPath).toHaveBeenCalled();
+            expect(ctx.ellipse).toHaveBeenCalledWith(x, y, width / 2, height / 2, 0, 0, Math.PI * 2);
+            expect(ctx.fill).toHaveBeenCalled();
         })
     })
 });

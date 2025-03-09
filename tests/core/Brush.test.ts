@@ -163,6 +163,36 @@ describe('Brush', () => {
             expect(mockRect).toHaveBeenNthCalledWith(2, 200, 200, 50, 50);
         });
     });
+    describe('square', () => {
+        it('should throw error if renderer is not initialized', () => {
+            expect(() => {
+                brush.square(100, 100, 50);
+            }).toThrow('Renderer not initialized');
+        });
+
+        it('should call renderer.rect with correct parameters for a square', () => {
+            const mockRect = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.rect = mockRect;
+
+            brush.square(100, 150, 50);
+
+            expect(mockRect).toHaveBeenCalledWith(100, 150, 50, 50);
+        });
+
+        it('should allow drawing multiple squares', () => {
+            const mockRect = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.rect = mockRect;
+
+            brush.square(100, 150, 50);
+            brush.square(200, 250, 60);
+
+            expect(mockRect).toHaveBeenCalledTimes(2);
+            expect(mockRect).toHaveBeenNthCalledWith(1, 100, 150, 50, 50);
+            expect(mockRect).toHaveBeenNthCalledWith(2, 200, 250, 60, 60);
+        });
+    });
     describe('fill', () => {
         it('should throw error if renderer is not initialized', () => {
             expect(() => {
@@ -195,5 +225,66 @@ describe('Brush', () => {
             expect(mockFill).toHaveBeenNthCalledWith(3, '#0F0FFF');
         });
 
+    });
+    describe('ellipse', () => {
+        it('should throw error if renderer is not initialized', () => {
+            expect(() => {
+                brush.ellipse(100, 100, 50, 30);
+            }).toThrow('Renderer not initialized');
+        });
+
+        it('should call renderer.ellipse with correct parameters', () => {
+            const mockEllipse = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.ellipse = mockEllipse;
+
+            brush.ellipse(100, 150, 50, 30);
+
+            expect(mockEllipse).toHaveBeenCalledWith(100, 150, 50, 30);
+        });
+
+        it('should allow drawing multiple ellipses', () => {
+            const mockEllipse = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.ellipse = mockEllipse;
+
+            brush.ellipse(100, 150, 50, 30);
+            brush.ellipse(200, 250, 60, 40);
+
+            expect(mockEllipse).toHaveBeenCalledTimes(2);
+            expect(mockEllipse).toHaveBeenNthCalledWith(1, 100, 150, 50, 30);
+            expect(mockEllipse).toHaveBeenNthCalledWith(2, 200, 250, 60, 40);
+        });
+    });
+
+    describe('circle', () => {
+        it('should throw error if renderer is not initialized', () => {
+            expect(() => {
+                brush.circle(100, 100, 50);
+            }).toThrow('Renderer not initialized');
+        });
+
+        it('should call renderer.ellipse with correct parameters for a circle', () => {
+            const mockEllipse = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.ellipse = mockEllipse;
+
+            brush.circle(100, 150, 50);
+
+            expect(mockEllipse).toHaveBeenCalledWith(100, 150, 50, 50);
+        });
+
+        it('should allow drawing multiple circles', () => {
+            const mockEllipse = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.ellipse = mockEllipse;
+
+            brush.circle(100, 150, 50);
+            brush.circle(200, 250, 60);
+
+            expect(mockEllipse).toHaveBeenCalledTimes(2);
+            expect(mockEllipse).toHaveBeenNthCalledWith(1, 100, 150, 50, 50);
+            expect(mockEllipse).toHaveBeenNthCalledWith(2, 200, 250, 60, 60);
+        });
     });
 });

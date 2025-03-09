@@ -35,6 +35,19 @@ class Renderer {
         this.ctx.fill();
     }
     /**
+    * 
+    * @description Draws a filled ellipse (or circle) on the canvas at the specified position and dimensions.
+    * @param {number} x - The x-coordinate of the center of the ellipse.
+    * @param {number} y - The y-coordinate of the center of the ellipse.
+    * @param {number} width - The width of the ellipse.
+    * @param {number} height - The height of the ellipse.
+    */
+    ellipse(x: number, y: number, width: number, height: number) {
+        this.ctx.beginPath();
+        this.ctx.ellipse(x, y, width / 2, height / 2, 0, 0, Math.PI * 2);
+        this.ctx.fill();
+    }
+    /**
      * @description This method updates the `fillStyle` property of the canvas rendering context.
      * @param color - The color to set as the fill style.
      */

@@ -94,6 +94,31 @@ export class Brush {
         this.renderer.rect(x, y, size, size)
     }
     /**
+    * @description Draws a filled ellipse on the canvas at the specified position and dimensions.
+    * @param {number} x - The x-coordinate of the center of the ellipse.
+    * @param {number} y - The y-coordinate of the center of the ellipse.
+    * @param {number} width - The width of the ellipse.
+    * @param {number} height - The height of the ellipse.
+    */
+    ellipse(x: number, y: number, width: number, height: number) {
+        if (!this.renderer) {
+            throw new Error('Renderer not initialized');
+        }
+        this.renderer.ellipse(x, y, width, height)
+    }
+    /**
+    * @description Draws a filled circle on the canvas at the specified position and radius.
+    * @param {number} x - The x-coordinate of the center of the circle.
+    * @param {number} y - The y-coordinate of the center of the circle.
+    * @param {number} radius - The radius of circle.
+    */
+    circle(x: number, y: number, radius: number) {
+        if (!this.renderer) {
+            throw new Error('Renderer not initialized');
+        }
+        this.renderer.ellipse(x, y, radius, radius)
+    }
+    /**
      * @description This method updates the `fillStyle` property of the canvas rendering context.
      * @param color - The color to set as the fill style.
      */
