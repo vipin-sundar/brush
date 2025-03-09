@@ -10,11 +10,12 @@ describe('Brush', () => {
                 clearRect: jest.fn(),
                 beginPath: jest.fn(),
                 rect: jest.fn(),
-                fill: jest.fn()
+                fill: jest.fn(),
+                ellipse: jest.fn(),
             }),
             appendChild: jest.fn(),
             width: 0,
-            height: 0
+            height: 0,
         });
         document.querySelector = jest.fn().mockReturnValue(document.createElement('div'));
     });
@@ -37,7 +38,7 @@ describe('Brush', () => {
         it('should set optional id and className if provided', () => {
             const canvas = brush.createCanvas(800, 600, {
                 id: 'testCanvas',
-                className: 'canvas-class'
+                className: 'canvas-class',
             });
 
             expect(canvas.id).toBe('testCanvas');
@@ -60,6 +61,16 @@ describe('Brush', () => {
                 brush.createCanvas(800, 600, { container: '#nonexistent' });
             }).toThrow('Container element not found');
         });
+
+        it('should throw error if 2D context is not available', () => {
+            document.createElement = jest.fn().mockReturnValue({
+                getContext: jest.fn().mockReturnValue(null),
+            });
+
+            expect(() => {
+                brush.createCanvas(800, 600);
+            }).toThrow('Failed to get 2D context');
+        });
     });
 
     describe('background', () => {
@@ -70,7 +81,7 @@ describe('Brush', () => {
         });
 
         it('should set background color when renderer is initialized', () => {
-            const canvas = brush.createCanvas(800, 600);
+            brush.createCanvas(800, 600);
             expect(() => {
                 brush.background('red');
             }).not.toThrow();
@@ -132,7 +143,24 @@ describe('Brush', () => {
             expect(loopInstance.frameRate).toBe(30);
             expect(loopInstance.updatesPerFrame).toBe(2);
         });
+
+        it('should call the draw function in the animation loop', () => {
+            brush.createCanvas(800, 600);
+            brush.setup = jest.fn();
+            brush.draw = jest.fn(); // Mock the draw function
+
+            brush.start();
+
+            // Simulate the loop's draw callback
+            const loopInstance = (brush as any).loop;
+            const drawCallback = (loopInstance as any).drawCallback;
+
+            drawCallback(); // Manually trigger the draw callback
+
+            expect(brush.draw).toHaveBeenCalled(); // Verify that draw was called
+        });
     });
+
     describe('rect', () => {
         it('should throw error if renderer is not initialized', () => {
             expect(() => {
@@ -163,6 +191,7 @@ describe('Brush', () => {
             expect(mockRect).toHaveBeenNthCalledWith(2, 200, 200, 50, 50);
         });
     });
+
     describe('square', () => {
         it('should throw error if renderer is not initialized', () => {
             expect(() => {
@@ -193,6 +222,7 @@ describe('Brush', () => {
             expect(mockRect).toHaveBeenNthCalledWith(2, 200, 250, 60, 60);
         });
     });
+
     describe('fill', () => {
         it('should throw error if renderer is not initialized', () => {
             expect(() => {
@@ -224,8 +254,8 @@ describe('Brush', () => {
             expect(mockFill).toHaveBeenNthCalledWith(2, 'blue');
             expect(mockFill).toHaveBeenNthCalledWith(3, '#0F0FFF');
         });
-
     });
+
     describe('ellipse', () => {
         it('should throw error if renderer is not initialized', () => {
             expect(() => {
