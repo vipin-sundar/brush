@@ -69,7 +69,32 @@ export class Brush {
         this.renderer.background(color);
     }
     /**
+    * @description Draws a filled rectangle on the canvas at the specified position.
+    * @param {number} x - The x-coordinate of the top-left corner of the rectangle.
+    * @param {number} y - The y-coordinate of the top-left corner of the rectangle.
+    * @param {number} width - The width of the rectangle.
+    * @param {number} height - The height of the rectangle. 
+     */
+    rect(x: number, y: number, width: number, height: number) {
+        if (!this.renderer) {
+            throw new Error('Renderer not initialized');
+        }
+        this.renderer.rect(x, y, width, height)
+    }
+    /**
+     * @description This method updates the `fillStyle` property of the canvas rendering context.
+     * @param color - The color to set as the fill style.
+     */
+    fill(color: string) {
+        if (!this.renderer) {
+            throw new Error('Renderer not initialized');
+        }
+        this.renderer.fill(color)
+    }
+    /**
      * @description Method to start the canvas rendering.
+     * @param {number} frameRate - The frame rate of canvas draw.
+     * @param {number} updatesPerFrame - Number of updates in each frame.
      */
     start(frameRate: number = 60, updatesPerFrame: number = 1): void {
         if (!this.setup) {

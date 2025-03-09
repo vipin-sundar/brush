@@ -133,4 +133,67 @@ describe('Brush', () => {
             expect(loopInstance.updatesPerFrame).toBe(2);
         });
     });
+    describe('rect', () => {
+        it('should throw error if renderer is not initialized', () => {
+            expect(() => {
+                brush.rect(0, 0, 100, 100);
+            }).toThrow('Renderer not initialized');
+        });
+
+        it('should call renderer.rect with correct parameters', () => {
+            const mockRect = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.rect = mockRect;
+
+            brush.rect(10, 20, 30, 40);
+
+            expect(mockRect).toHaveBeenCalledWith(10, 20, 30, 40);
+        });
+
+        it('should allow drawing multiple rectangles', () => {
+            const mockRect = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.rect = mockRect;
+
+            brush.rect(0, 0, 100, 100);
+            brush.rect(200, 200, 50, 50);
+
+            expect(mockRect).toHaveBeenCalledTimes(2);
+            expect(mockRect).toHaveBeenNthCalledWith(1, 0, 0, 100, 100);
+            expect(mockRect).toHaveBeenNthCalledWith(2, 200, 200, 50, 50);
+        });
+    });
+    describe('fill', () => {
+        it('should throw error if renderer is not initialized', () => {
+            expect(() => {
+                brush.fill('red');
+            }).toThrow('Renderer not initialized');
+        });
+
+        it('should call renderer.fill with correct color', () => {
+            const mockFill = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.fill = mockFill;
+
+            brush.fill('#F0F0F0');
+
+            expect(mockFill).toHaveBeenCalledWith('#F0F0F0');
+        });
+
+        it('should allow multiple fill calls with different colors', () => {
+            const mockFill = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.fill = mockFill;
+
+            brush.fill('red');
+            brush.fill('blue');
+            brush.fill('#0F0FFF');
+
+            expect(mockFill).toHaveBeenCalledTimes(3);
+            expect(mockFill).toHaveBeenNthCalledWith(1, 'red');
+            expect(mockFill).toHaveBeenNthCalledWith(2, 'blue');
+            expect(mockFill).toHaveBeenNthCalledWith(3, '#0F0FFF');
+        });
+
+    });
 });

@@ -55,4 +55,11 @@ describe('Renderer', () => {
             expect(ctx.fill).toHaveBeenCalled();
         });
     });
+    describe('fill', () => {
+        it('should add fill color to canvas', () => {
+            const color = '#F0F0F0'
+            renderer.fill(color);
+            expect(ctx.fillStyle).toBe(color);
+        })
+    })
 });

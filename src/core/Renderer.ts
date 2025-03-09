@@ -34,5 +34,12 @@ class Renderer {
         this.ctx.rect(x, y, width, height);
         this.ctx.fill();
     }
+    /**
+     * @description This method updates the `fillStyle` property of the canvas rendering context.
+     * @param color - The color to set as the fill style.
+     */
+    fill(color: string) {
+        this.ctx.fillStyle = color;
+    }
 }
 export default Renderer;
