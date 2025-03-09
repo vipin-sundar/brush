@@ -22,5 +22,17 @@ class Renderer {
         this.ctx.fillStyle = color;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
+    /**
+    * @description Draws a filled rectangle on the canvas at the specified position.
+    * @param {number} x - The x-coordinate of the top-left corner of the rectangle.
+    * @param {number} y - The y-coordinate of the top-left corner of the rectangle.
+    * @param {number} width - The width of the rectangle.
+    * @param {number} height - The height of the rectangle. 
+     */
+    rect(x: number, y: number, width: number, height: number) {
+        this.ctx.beginPath();
+        this.ctx.rect(x, y, width, height);
+        this.ctx.fill();
+    }
 }
 export default Renderer;

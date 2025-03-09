@@ -1,16 +1,21 @@
 import Renderer from "./Renderer";
+import Loop from "./Loop";
 
 export class Brush {
     private canvas: HTMLCanvasElement | null = null;
     private ctx: CanvasRenderingContext2D | null = null;
     private renderer: Renderer | null = null;
     public setup: (() => void) | null = null;
+    public draw: (() => void) | null = null;
+    private loop: Loop | null;
 
     constructor() {
         this.canvas = null;
         this.ctx = null;
         this.renderer = null;
         this.setup = null;
+        this.draw = null;
+        this.loop = null;
     }
     /**
      * @description Creates a new canvas element and appends it to the DOM.
@@ -66,10 +71,17 @@ export class Brush {
     /**
      * @description Method to start the canvas rendering.
      */
-    start(): void {
+    start(frameRate: number = 60, updatesPerFrame: number = 1): void {
         if (!this.setup) {
             throw new Error('Setup function not defined');
         }
         this.setup();
+        this.loop = new Loop(() => {
+            if (!this.draw) {
+                throw new Error('Draw function is not defined')
+            }
+            this.draw()
+        }, frameRate, updatesPerFrame);
+        this.loop.start()
     }
 }
