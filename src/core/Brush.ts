@@ -119,6 +119,20 @@ export class Brush {
         this.renderer.ellipse(x, y, radius, radius)
     }
     /**
+     * @description Draws a line on the canvas from the starting point to the ending point.
+     * @param {number} startX - The x-coordinate of the starting point.
+     * @param {number} startY - The y-coordinate of the starting point.
+     * @param {number} endX - The x-coordinate of the ending point.
+     * @param {number} endY - The y-coordinate of the ending point.
+     */
+    line(startX: number, startY: number, endX: number, endY: number) {
+        if (!this.renderer) {
+            throw new Error('Renderer not initialized');
+        }
+        this.renderer.line(startX, startY, endX, endY)
+        this.stroke();
+    }
+    /**
      * @description This method updates the `fillStyle` property of the canvas rendering context.
      * @param color - The color to set as the fill style.
      */
@@ -127,6 +141,15 @@ export class Brush {
             throw new Error('Renderer not initialized');
         }
         this.renderer.fill(color)
+    }
+    /**
+     * @description This method updates the `strokeStyle` property of the canvas rendering context to the current fill style.
+     */
+    stroke() {
+        if (!this.renderer) {
+            throw new Error('Renderer not initialized');
+        }
+        this.renderer.stroke()
     }
     /**
      * @description Sets the stroke color for subsequent drawing operations.

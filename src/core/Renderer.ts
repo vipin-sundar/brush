@@ -58,11 +58,29 @@ class Renderer {
         this.ctx.fill();
     }
     /**
+     * @description Draws a line on the canvas from the starting point to the ending point.
+     * @param {number} startX - The x-coordinate of the starting point.
+     * @param {number} startY - The y-coordinate of the starting point.
+     * @param {number} endX - The x-coordinate of the ending point.
+     * @param {number} endY - The y-coordinate of the ending point.
+     */
+    line(startX: number, startY: number, endX: number, endY: number) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(startX, startY);
+        this.ctx.lineTo(endX, endY);
+    }
+    /**
      * @description This method updates the `fillStyle` property of the canvas rendering context.
      * @param color - The color to set as the fill style.
      */
     fill(color: string) {
         this.ctx.fillStyle = color;
+    }
+    /**
+     * @description This method updates the `strokeStyle` property of the canvas rendering context to the current fill style.
+     */
+    stroke() {
+        this.ctx.stroke();
     }
     /**
      * @description Sets the stroke color for subsequent drawing operations.

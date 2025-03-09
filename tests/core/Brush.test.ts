@@ -382,4 +382,70 @@ describe('Brush', () => {
             expect(mockStrokeWeight).toHaveBeenNthCalledWith(3, 5);
         });
     });
+    describe('line', () => {
+        it('should throw error if renderer is not initialized', () => {
+            expect(() => {
+                brush.line(0, 0, 100, 100);
+            }).toThrow('Renderer not initialized');
+        });
+
+        it('should call renderer.line and stroke with correct parameters', () => {
+            const mockLine = jest.fn();
+            const mockStroke = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.line = mockLine;
+            (brush as any).renderer.stroke = mockStroke;
+
+            brush.line(10, 20, 30, 40);
+
+            expect(mockLine).toHaveBeenCalledWith(10, 20, 30, 40);
+            expect(mockStroke).toHaveBeenCalled();
+        });
+
+        it('should allow drawing multiple lines', () => {
+            const mockLine = jest.fn();
+            const mockStroke = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.line = mockLine;
+            (brush as any).renderer.stroke = mockStroke;
+
+            brush.line(0, 0, 100, 100);
+            brush.line(200, 200, 300, 300);
+
+            expect(mockLine).toHaveBeenCalledTimes(2);
+            expect(mockLine).toHaveBeenNthCalledWith(1, 0, 0, 100, 100);
+            expect(mockLine).toHaveBeenNthCalledWith(2, 200, 200, 300, 300);
+            expect(mockStroke).toHaveBeenCalledTimes(2);
+        });
+    });
+
+    describe('stroke', () => {
+        it('should throw error if renderer is not initialized', () => {
+            expect(() => {
+                brush.stroke();
+            }).toThrow('Renderer not initialized');
+        });
+
+        it('should call renderer.stroke', () => {
+            const mockStroke = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.stroke = mockStroke;
+
+            brush.stroke();
+
+            expect(mockStroke).toHaveBeenCalled();
+        });
+
+        it('should allow multiple stroke calls', () => {
+            const mockStroke = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.stroke = mockStroke;
+
+            brush.stroke();
+            brush.stroke();
+            brush.stroke();
+
+            expect(mockStroke).toHaveBeenCalledTimes(3);
+        });
+    });
 });

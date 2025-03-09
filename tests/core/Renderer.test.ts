@@ -14,7 +14,11 @@ describe('Renderer', () => {
             rect: jest.fn(),
             fill: jest.fn(),
             ellipse: jest.fn(),
-            lineWidth: 1
+            lineWidth: 1,
+            moveTo: jest.fn(),
+            lineTo: jest.fn(),
+            stroke: jest.fn(),
+            strokeStyle: ''
         } as unknown as CanvasRenderingContext2D;
 
         canvas = {
@@ -101,6 +105,22 @@ describe('Renderer', () => {
             const weight = 5;
             renderer.strokeWeight(weight);
             expect(ctx.lineWidth).toBe(weight);
+        });
+    });
+    describe('line', () => {
+        it('should draw line with correct parameters', () => {
+            const startX = 10, startY = 20, endX = 30, endY = 40;
+            renderer.line(startX, startY, endX, endY);
+            expect(ctx.beginPath).toHaveBeenCalled();
+            expect(ctx.moveTo).toHaveBeenCalledWith(startX, startY);
+            expect(ctx.lineTo).toHaveBeenCalledWith(endX, endY);
+        });
+    });
+
+    describe('stroke', () => {
+        it('should call stroke method on context', () => {
+            renderer.stroke();
+            expect(ctx.stroke).toHaveBeenCalled();
         });
     });
 });
