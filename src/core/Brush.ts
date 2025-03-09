@@ -4,14 +4,16 @@ export class Brush {
     private canvas: HTMLCanvasElement | null = null;
     private ctx: CanvasRenderingContext2D | null = null;
     private renderer: Renderer | null = null;
+    public setup: (() => void) | null = null;
 
     constructor() {
         this.canvas = null;
         this.ctx = null;
         this.renderer = null;
+        this.setup = null;
     }
     /**
-     * Creates a new canvas element and appends it to the DOM.
+     * @description Creates a new canvas element and appends it to the DOM.
      * @param {number} width - The width of the canvas.
      * @param {number} height - The height of the canvas.
      * @param {object} [options] - Optional parameters.
@@ -52,7 +54,7 @@ export class Brush {
         return this.canvas;
     }
     /**
-     * Sets the background color of the canvas.
+     * @description Sets the background color of the canvas.
      * @param {string} color - The color to set as the background.
      */
     background(color: string): void {
@@ -60,5 +62,14 @@ export class Brush {
             throw new Error('Renderer not initialized');
         }
         this.renderer.background(color);
+    }
+    /**
+     * @description Method to start the canvas rendering.
+     */
+    start(): void {
+        if (!this.setup) {
+            throw new Error('Setup function not defined');
+        }
+        this.setup();
     }
 }

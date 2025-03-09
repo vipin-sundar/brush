@@ -2,7 +2,7 @@ class Renderer {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
     /**
-     * Creates an instance of the `Renderer` class.
+     * @description Creates an instance of the `Renderer` class.
      * @param {HTMLCanvasElement} canvas - The canvas element to associate with this renderer.
      * @throws {Error} Throws an error if the 2D context cannot be obtained from the canvas.
      */
@@ -15,7 +15,7 @@ class Renderer {
         this.ctx = context;
     }
     /**
-     * Sets the background color of the canvas.
+     * @description Sets the background color of the canvas.
      * @param {string} color - The color to set as the background.
      */
     background(color: string): void {
