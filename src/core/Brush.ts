@@ -82,6 +82,18 @@ export class Brush {
         this.renderer.rect(x, y, width, height)
     }
     /**
+     * @description Draws a filled square on the canvas at the specified position.
+     * @param x - The x-coordinate of the top-left corner of the rectangle.
+     * @param y - The y-coordinate of the top-left corner of the rectangle.
+     * @param size - The size (width and height) of the square.
+     */
+    square(x: number, y: number, size: number) {
+        if (!this.renderer) {
+            throw new Error('Renderer not initialized');
+        }
+        this.renderer.rect(x, y, size, size)
+    }
+    /**
      * @description This method updates the `fillStyle` property of the canvas rendering context.
      * @param color - The color to set as the fill style.
      */
