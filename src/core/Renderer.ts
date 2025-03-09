@@ -70,6 +70,20 @@ class Renderer {
         this.ctx.lineTo(endX, endY);
     }
     /**
+     * @description Draws text on the canvas at the specified position.
+     * @param {string} text - The text to draw on the canvas.
+     * @param {number} x - The x-coordinate of the text.
+     * @param {number} y - The y-coordinate of the text.
+     * @param {string} fontFamily - The font family to use.
+     * @param {CanvasTextAlign} textAlign - The alignment of the text.
+     * @param {number} fontSize - The size of the font.
+     */
+    text(text: string, x: number, y: number, fontFamily: string, textAlign: CanvasTextAlign, fontSize: number = 16) {
+        this.ctx.font = `${fontSize}px ${fontFamily}`;
+        this.ctx.textAlign = textAlign;
+        this.ctx.fillText(text, x, y);
+    }
+    /**
      * @description This method updates the `fillStyle` property of the canvas rendering context.
      * @param color - The color to set as the fill style.
      */

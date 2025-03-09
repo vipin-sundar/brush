@@ -448,4 +448,46 @@ describe('Brush', () => {
             expect(mockStroke).toHaveBeenCalledTimes(3);
         });
     });
+    describe('text', () => {
+        it('should throw error if renderer is not initialized', () => {
+            expect(() => {
+                brush.text('Hello World', 100, 100);
+            }).toThrow('Renderer not initialized');
+        });
+
+        it('should call renderer.text with default parameters', () => {
+            const mockText = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.text = mockText;
+
+            brush.text('Hello World', 100, 100);
+
+            expect(mockText).toHaveBeenCalledWith('Hello World', 100, 100, 'Arial', 'left', 16);
+        });
+
+        it('should call renderer.text with custom parameters', () => {
+            const mockText = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.text = mockText;
+
+            brush.text('Hello World', 100, 100, 'Helvetica', 'center', 24);
+
+            expect(mockText).toHaveBeenCalledWith('Hello World', 100, 100, 'Helvetica', 'center', 24);
+        });
+
+        it('should allow multiple text calls with different parameters', () => {
+            const mockText = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.text = mockText;
+
+            brush.text('First Text', 100, 100);
+            brush.text('Second Text', 200, 200, 'Times New Roman');
+            brush.text('Third Text', 300, 300, 'Helvetica', 'right', 32);
+
+            expect(mockText).toHaveBeenCalledTimes(3);
+            expect(mockText).toHaveBeenNthCalledWith(1, 'First Text', 100, 100, 'Arial', 'left', 16);
+            expect(mockText).toHaveBeenNthCalledWith(2, 'Second Text', 200, 200, 'Times New Roman', 'left', 16);
+            expect(mockText).toHaveBeenNthCalledWith(3, 'Third Text', 300, 300, 'Helvetica', 'right', 32);
+        });
+    });
 });

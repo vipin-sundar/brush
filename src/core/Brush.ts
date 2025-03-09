@@ -133,6 +133,21 @@ export class Brush {
         this.stroke();
     }
     /**
+     * @description Draws text on the canvas at the specified position.
+     * @param {string} text - The text to draw on the canvas.
+     * @param {number} x - The x-coordinate of the text.
+     * @param {number} y - The y-coordinate of the text.
+     * @param {string} fontFamily - The font family to use.
+     * @param {CanvasTextAlign} textAlign - The alignment of the text.
+     * @param {number} fontSize - The size of the font.
+     */
+    text(text: string, x: number, y: number, fontFamily: string = 'Arial', textAlign: CanvasTextAlign = 'left', fontSize = 16) {
+        if (!this.renderer) {
+            throw new Error('Renderer not initialized');
+        }
+        this.renderer.text(text, x, y, fontFamily, textAlign, fontSize);
+    }
+    /**
      * @description This method updates the `fillStyle` property of the canvas rendering context.
      * @param color - The color to set as the fill style.
      */

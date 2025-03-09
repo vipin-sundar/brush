@@ -18,7 +18,8 @@ describe('Renderer', () => {
             moveTo: jest.fn(),
             lineTo: jest.fn(),
             stroke: jest.fn(),
-            strokeStyle: ''
+            strokeStyle: '',
+            fillText: jest.fn()
         } as unknown as CanvasRenderingContext2D;
 
         canvas = {
@@ -121,6 +122,18 @@ describe('Renderer', () => {
         it('should call stroke method on context', () => {
             renderer.stroke();
             expect(ctx.stroke).toHaveBeenCalled();
+        });
+    });
+    describe('text', () => {
+        it('should draw text with correct parameters', () => {
+            const text = 'Hello World', x = 10, y = 20, fontSize = 16, fontFamily = 'Arial', textAlign = 'left';
+            renderer.text(text, x, y, fontFamily, textAlign, fontSize);
+            expect(ctx.fillText).toHaveBeenCalledWith(text, x, y);
+        });
+        it('should draw text with correct parameters (when fontSize is not specified)', () => {
+            const text = 'Hello World', x = 10, y = 20, fontFamily = 'Arial', textAlign = 'left';
+            renderer.text(text, x, y, fontFamily, textAlign);
+            expect(ctx.fillText).toHaveBeenCalledWith(text, x, y);
         });
     });
 });
