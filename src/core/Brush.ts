@@ -75,11 +75,11 @@ export class Brush {
     * @param {number} width - The width of the rectangle.
     * @param {number} height - The height of the rectangle. 
      */
-    rect(x: number, y: number, width: number, height: number) {
+    rect(x: number, y: number, width: number, height: number, applyStroke: boolean = false) {
         if (!this.renderer) {
             throw new Error('Renderer not initialized');
         }
-        this.renderer.rect(x, y, width, height)
+        this.renderer.rect(x, y, width, height, applyStroke)
     }
     /**
      * @description Draws a filled square on the canvas at the specified position.
@@ -87,11 +87,11 @@ export class Brush {
      * @param y - The y-coordinate of the top-left corner of the rectangle.
      * @param size - The size (width and height) of the square.
      */
-    square(x: number, y: number, size: number) {
+    square(x: number, y: number, size: number, applyStroke: boolean = false) {
         if (!this.renderer) {
             throw new Error('Renderer not initialized');
         }
-        this.renderer.rect(x, y, size, size)
+        this.renderer.rect(x, y, size, size, applyStroke)
     }
     /**
     * @description Draws a filled ellipse on the canvas at the specified position and dimensions.
@@ -127,6 +127,26 @@ export class Brush {
             throw new Error('Renderer not initialized');
         }
         this.renderer.fill(color)
+    }
+    /**
+     * @description Sets the stroke color for subsequent drawing operations.
+     * @param {string} color - The color to set as the stroke style.
+     */
+    strokeColor(color: string) {
+        if (!this.renderer) {
+            throw new Error('Renderer not initialized');
+        }
+        this.renderer.strokeColor(color);
+    }
+    /**
+    * @description Sets the stroke weight (line width) for subsequent drawing operations.
+    * @param {number} weight - The thickness of the stroke in pixels.
+    */
+    strokeWeight(weight: number) {
+        if (!this.renderer) {
+            throw new Error('Renderer not initialized');
+        }
+        this.renderer.strokeWeight(weight);
     }
     /**
      * @description Method to start the canvas rendering.

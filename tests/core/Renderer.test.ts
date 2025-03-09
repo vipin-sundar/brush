@@ -9,10 +9,12 @@ describe('Renderer', () => {
         ctx = {
             fillStyle: '',
             fillRect: jest.fn(),
+            strokeRect: jest.fn(),
             beginPath: jest.fn(),
             rect: jest.fn(),
             fill: jest.fn(),
-            ellipse: jest.fn()
+            ellipse: jest.fn(),
+            lineWidth: 1
         } as unknown as CanvasRenderingContext2D;
 
         canvas = {
@@ -55,6 +57,20 @@ describe('Renderer', () => {
             expect(ctx.rect).toHaveBeenCalledWith(x, y, width, height);
             expect(ctx.fill).toHaveBeenCalled();
         });
+        it('should draw rectangle with correct parameters when stroke is true', () => {
+            const x = 10, y = 20, width = 30, height = 40, applyStroke = true;
+            const strokeWidth = 1; // Use fixed value since we know lineWidth is 1
+            const adjustedX = x + strokeWidth / 2;    // 10.5
+            const adjustedY = y + strokeWidth / 2;    // 20.5
+            const adjustedWidth = width - strokeWidth; // 29
+            const adjustedHeight = height - strokeWidth; // 39
+
+            renderer.rect(x, y, width, height, applyStroke);
+
+            expect(ctx.beginPath).toHaveBeenCalled();
+            expect(ctx.strokeRect).toHaveBeenCalledWith(adjustedX, adjustedY, adjustedWidth, adjustedHeight);
+            expect(ctx.fillRect).toHaveBeenCalledWith(adjustedX, adjustedY, adjustedWidth, adjustedHeight);
+        });
     });
     describe('fill', () => {
         it('should add fill color to canvas', () => {
@@ -72,4 +88,19 @@ describe('Renderer', () => {
             expect(ctx.fill).toHaveBeenCalled();
         })
     })
+    describe('strokeColor', () => {
+        it('should set stroke color correctly', () => {
+            const color = '#FF0000';
+            renderer.strokeColor(color);
+            expect(ctx.strokeStyle).toBe(color);
+        });
+    });
+
+    describe('strokeWeight', () => {
+        it('should set stroke weight correctly', () => {
+            const weight = 5;
+            renderer.strokeWeight(weight);
+            expect(ctx.lineWidth).toBe(weight);
+        });
+    });
 });

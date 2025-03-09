@@ -29,8 +29,18 @@ class Renderer {
     * @param {number} width - The width of the rectangle.
     * @param {number} height - The height of the rectangle. 
      */
-    rect(x: number, y: number, width: number, height: number) {
+    rect(x: number, y: number, width: number, height: number, applyStroke: boolean = false) {
         this.ctx.beginPath();
+        const strokeWidth = this.ctx.lineWidth;
+        const adjustedWidth = width - strokeWidth;
+        const adjustedHeight = height - strokeWidth;
+        const adjustedX = x + strokeWidth / 2;
+        const adjustedY = y + strokeWidth / 2;
+        if (applyStroke) {
+            this.ctx.strokeRect(adjustedX, adjustedY, adjustedWidth, adjustedHeight);
+            this.ctx.fillRect(adjustedX, adjustedY, adjustedWidth, adjustedHeight);
+            return
+        }
         this.ctx.rect(x, y, width, height);
         this.ctx.fill();
     }
@@ -53,6 +63,20 @@ class Renderer {
      */
     fill(color: string) {
         this.ctx.fillStyle = color;
+    }
+    /**
+     * @description Sets the stroke color for subsequent drawing operations.
+     * @param {string} color - The color to set as the stroke style.
+     */
+    strokeColor(color: string) {
+        this.ctx.strokeStyle = color;
+    }
+    /**
+     * @description Sets the stroke weight (line width) for subsequent drawing operations.
+     * @param {number} weight - The thickness of the stroke in pixels.
+     */
+    strokeWeight(weight: number) {
+        this.ctx.lineWidth = weight;
     }
 }
 export default Renderer;

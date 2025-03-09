@@ -175,7 +175,7 @@ describe('Brush', () => {
 
             brush.rect(10, 20, 30, 40);
 
-            expect(mockRect).toHaveBeenCalledWith(10, 20, 30, 40);
+            expect(mockRect).toHaveBeenCalledWith(10, 20, 30, 40, false);
         });
 
         it('should allow drawing multiple rectangles', () => {
@@ -187,8 +187,8 @@ describe('Brush', () => {
             brush.rect(200, 200, 50, 50);
 
             expect(mockRect).toHaveBeenCalledTimes(2);
-            expect(mockRect).toHaveBeenNthCalledWith(1, 0, 0, 100, 100);
-            expect(mockRect).toHaveBeenNthCalledWith(2, 200, 200, 50, 50);
+            expect(mockRect).toHaveBeenNthCalledWith(1, 0, 0, 100, 100, false);
+            expect(mockRect).toHaveBeenNthCalledWith(2, 200, 200, 50, 50, false);
         });
     });
 
@@ -206,7 +206,7 @@ describe('Brush', () => {
 
             brush.square(100, 150, 50);
 
-            expect(mockRect).toHaveBeenCalledWith(100, 150, 50, 50);
+            expect(mockRect).toHaveBeenCalledWith(100, 150, 50, 50, false);
         });
 
         it('should allow drawing multiple squares', () => {
@@ -218,8 +218,8 @@ describe('Brush', () => {
             brush.square(200, 250, 60);
 
             expect(mockRect).toHaveBeenCalledTimes(2);
-            expect(mockRect).toHaveBeenNthCalledWith(1, 100, 150, 50, 50);
-            expect(mockRect).toHaveBeenNthCalledWith(2, 200, 250, 60, 60);
+            expect(mockRect).toHaveBeenNthCalledWith(1, 100, 150, 50, 50, false);
+            expect(mockRect).toHaveBeenNthCalledWith(2, 200, 250, 60, 60, false);
         });
     });
 
@@ -315,6 +315,71 @@ describe('Brush', () => {
             expect(mockEllipse).toHaveBeenCalledTimes(2);
             expect(mockEllipse).toHaveBeenNthCalledWith(1, 100, 150, 50, 50);
             expect(mockEllipse).toHaveBeenNthCalledWith(2, 200, 250, 60, 60);
+        });
+    });
+    describe('strokeColor', () => {
+        it('should throw error if renderer is not initialized', () => {
+            expect(() => {
+                brush.strokeColor('black');
+            }).toThrow('Renderer not initialized');
+        });
+
+        it('should call renderer.strokeColor with correct color', () => {
+            const mockStrokeColor = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.strokeColor = mockStrokeColor;
+
+            brush.strokeColor('#000000');
+
+            expect(mockStrokeColor).toHaveBeenCalledWith('#000000');
+        });
+
+        it('should allow multiple strokeColor calls with different colors', () => {
+            const mockStrokeColor = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.strokeColor = mockStrokeColor;
+
+            brush.strokeColor('black');
+            brush.strokeColor('red');
+            brush.strokeColor('#FF0000');
+
+            expect(mockStrokeColor).toHaveBeenCalledTimes(3);
+            expect(mockStrokeColor).toHaveBeenNthCalledWith(1, 'black');
+            expect(mockStrokeColor).toHaveBeenNthCalledWith(2, 'red');
+            expect(mockStrokeColor).toHaveBeenNthCalledWith(3, '#FF0000');
+        });
+    });
+
+    describe('strokeWeight', () => {
+        it('should throw error if renderer is not initialized', () => {
+            expect(() => {
+                brush.strokeWeight(2);
+            }).toThrow('Renderer not initialized');
+        });
+
+        it('should call renderer.strokeWeight with correct weight', () => {
+            const mockStrokeWeight = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.strokeWeight = mockStrokeWeight;
+
+            brush.strokeWeight(5);
+
+            expect(mockStrokeWeight).toHaveBeenCalledWith(5);
+        });
+
+        it('should allow multiple strokeWeight calls with different values', () => {
+            const mockStrokeWeight = jest.fn();
+            brush.createCanvas(800, 600);
+            (brush as any).renderer.strokeWeight = mockStrokeWeight;
+
+            brush.strokeWeight(1);
+            brush.strokeWeight(3);
+            brush.strokeWeight(5);
+
+            expect(mockStrokeWeight).toHaveBeenCalledTimes(3);
+            expect(mockStrokeWeight).toHaveBeenNthCalledWith(1, 1);
+            expect(mockStrokeWeight).toHaveBeenNthCalledWith(2, 3);
+            expect(mockStrokeWeight).toHaveBeenNthCalledWith(3, 5);
         });
     });
 });
