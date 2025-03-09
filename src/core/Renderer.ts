@@ -14,5 +14,13 @@ class Renderer {
         }
         this.ctx = context;
     }
+    /**
+     * Sets the background color of the canvas.
+     * @param {string} color - The color to set as the background.
+     */
+    background(color: string): void {
+        this.ctx.fillStyle = color;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    }
 }
 export default Renderer;

@@ -51,4 +51,14 @@ export class Brush {
         }
         return this.canvas;
     }
+    /**
+     * Sets the background color of the canvas.
+     * @param {string} color - The color to set as the background.
+     */
+    background(color: string): void {
+        if (!this.renderer) {
+            throw new Error('Renderer not initialized');
+        }
+        this.renderer.background(color);
+    }
 }
