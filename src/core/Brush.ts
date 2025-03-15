@@ -1,8 +1,9 @@
 import Renderer from "./Renderer";
 import Loop from "./Loop";
+import EventHandler from "./EventHandler";
 
-export class Brush {
-    private canvas: HTMLCanvasElement | null = null;
+export class Brush extends EventHandler {
+    protected canvas: HTMLCanvasElement | null = null;
     private ctx: CanvasRenderingContext2D | null = null;
     private renderer: Renderer | null = null;
     public setup: (() => void) | null = null;
@@ -10,6 +11,7 @@ export class Brush {
     private loop: Loop | null;
 
     constructor() {
+        super(null);
         this.canvas = null;
         this.ctx = null;
         this.renderer = null;
@@ -46,7 +48,6 @@ export class Brush {
         }
 
         this.renderer = new Renderer(this.canvas);
-
         if (options?.container) {
             const mountElement = typeof options.container === 'string'
                 ? document.querySelector(options.container)
