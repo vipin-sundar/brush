@@ -1,10 +1,13 @@
 {
-  "name": "brush",
-  "version": "1.0.0",
+  "name": "brusjs",
+  "version": "1.0.1",
   "description": "",
   "main": "./dist/bundle.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "jest",
     "test:coverage":"jest --coverage",
